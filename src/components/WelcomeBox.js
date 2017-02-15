@@ -1,5 +1,5 @@
 const React = require("react");
-const { DOM: dom, PropTypes, createFactory, Component} = React;
+const { DOM: dom, PropTypes, createFactory, Component } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const actions = require("../actions");
@@ -12,7 +12,7 @@ const PaneToggleButton = createFactory(
 
 require("./WelcomeBox.css");
 
-class WelcomeBox extends Component{
+class WelcomeBox extends Component {
 
   renderToggleButton() {
     if (this.props.horizontal) {
@@ -43,8 +43,8 @@ class WelcomeBox extends Component{
 
 WelcomeBox.propTypes = {
   horizontal: PropTypes.bool,
-    togglePaneCollapse: PropTypes.func,
-    endPanelCollapsed: PropTypes.bool,
+  togglePaneCollapse: PropTypes.func,
+  endPanelCollapsed: PropTypes.bool,
 };
 
 WelcomeBox.displayName = "WelcomeBox";
