@@ -10,8 +10,7 @@ function makeMarker() {
   return marker;
 }
 
-class HitMarker extends React.Component{
-
+class HitMarker extends React.Component {
   addMarker() {
     const hitData = this.props.hitData;
     const line = hitData.line - 1;
@@ -61,7 +60,7 @@ class HitMarker extends React.Component{
 
 HitMarker.propTypes = {
   hitData: PropTypes.object.isRequired,
-      editor: PropTypes.object.isRequired
+  editor: PropTypes.object.isRequired
 };
 
 HitMarker.displayName = "HitMarker";
