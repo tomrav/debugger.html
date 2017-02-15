@@ -1,25 +1,17 @@
 // @flow
 const React = require("react");
-const { DOM: dom, PropTypes } = React;
+const {DOM: dom, PropTypes, Component} = React;
 const ImPropTypes = require("react-immutable-proptypes");
-const { bindActionCreators } = require("redux");
-const { connect } = require("react-redux");
-const { formatKeyShortcut } = require("../utils/text");
+const {bindActionCreators} = require("redux");
+const {connect} = require("react-redux");
+const {formatKeyShortcut} = require("../utils/text");
 const SourcesTree = React.createFactory(require("./SourcesTree"));
 const actions = require("../actions");
-const { getSelectedSource, getSources } = require("../selectors");
+const {getSelectedSource, getSources} = require("../selectors");
 
 require("./Sources.css");
 
-const Sources = React.createClass({
-  propTypes: {
-    sources: ImPropTypes.map.isRequired,
-    selectSource: PropTypes.func.isRequired,
-    horizontal: PropTypes.bool.isRequired,
-    toggleFileSearch: PropTypes.func.isRequired
-  },
-
-  displayName: "Sources",
+class Sources extends Component {
 
   renderShortcut() {
     if (this.props.horizontal) {
@@ -33,23 +25,34 @@ const Sources = React.createClass({
           formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`))
       );
     }
-  },
+  }
 
   render() {
-    const { sources, selectSource } = this.props;
+    const {sources, selectSource} = this.props;
 
     return dom.div(
-      { className: "sources-panel" },
-      dom.div({ className: "sources-header" },
+      {className: "sources-panel"},
+      dom.div({className: "sources-header"},
         this.renderShortcut()
       ),
-      SourcesTree({ sources, selectSource })
+      SourcesTree({sources, selectSource})
     );
   }
-});
+}
+
+Sources.propTypes = {
+  sources: ImPropTypes.map.isRequired,
+  selectSource: PropTypes.func.isRequired,
+  horizontal: PropTypes.bool.isRequired,
+  toggleFileSearch: PropTypes.func.isRequired
+};
+
+Sources.displayName = "Sources";
 
 module.exports = connect(
-  state => ({ selectedSource: getSelectedSource(state),
-    sources: getSources(state) }),
+  state => ({
+    selectedSource: getSelectedSource(state),
+    sources: getSources(state)
+  }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Sources);
