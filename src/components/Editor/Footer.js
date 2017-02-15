@@ -20,25 +20,11 @@ const PaneToggleButton = React.createFactory(
 
 require("./Footer.css");
 
-const SourceFooter = React.createClass({
-  propTypes: {
-    selectedSource: ImPropTypes.map,
-    togglePrettyPrint: PropTypes.func,
-    recordCoverage: PropTypes.func,
-    sourceText: ImPropTypes.map,
-    selectSource: PropTypes.func,
-    prettySource: ImPropTypes.map,
-    editor: PropTypes.object,
-    endPanelCollapsed: PropTypes.bool,
-    togglePaneCollapse: PropTypes.func,
-    horizontal: PropTypes.bool
-  },
-
-  displayName: "SourceFooter",
+class SourceFooter extends React.Component {
 
   onClickPrettyPrint() {
     this.props.togglePrettyPrint(this.props.selectedSource.get("id"));
-  },
+  }
 
   prettyPrintButton() {
     const { selectedSource, sourceText } = this.props;
@@ -64,7 +50,7 @@ const SourceFooter = React.createClass({
     },
       Svg(type)
     );
-  },
+  }
 
   coverageButton() {
     const { recordCoverage } = this.props;
@@ -79,7 +65,7 @@ const SourceFooter = React.createClass({
       onClick: () => recordCoverage(),
       "aria-label": "Code Coverage"
     }, "C");
-  },
+  }
 
   renderToggleButton() {
     if (this.props.horizontal) {
@@ -92,7 +78,7 @@ const SourceFooter = React.createClass({
       horizontal: this.props.horizontal,
       handleClick: this.props.togglePaneCollapse
     });
-  },
+  }
 
   renderCommands() {
     const { selectedSource } = this.props;
@@ -105,7 +91,7 @@ const SourceFooter = React.createClass({
       this.prettyPrintButton(),
       this.coverageButton()
     );
-  },
+  }
 
   render() {
     const { selectedSource, horizontal } = this.props;
@@ -119,7 +105,22 @@ const SourceFooter = React.createClass({
       this.renderToggleButton()
     );
   }
-});
+}
+
+SourceFooter.propTypes = {
+  selectedSource: ImPropTypes.map,
+  togglePrettyPrint: PropTypes.func,
+  recordCoverage: PropTypes.func,
+  sourceText: ImPropTypes.map,
+  selectSource: PropTypes.func,
+  prettySource: ImPropTypes.map,
+  editor: PropTypes.object,
+  endPanelCollapsed: PropTypes.bool,
+  togglePaneCollapse: PropTypes.func,
+  horizontal: PropTypes.bool
+};
+
+SourceFooter.displayName = "SourceFooter";
 
 module.exports = connect(
   state => {
