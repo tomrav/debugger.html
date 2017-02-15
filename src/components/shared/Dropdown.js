@@ -2,24 +2,19 @@ const React = require("react");
 const { DOM: dom, PropTypes } = React;
 require("./Dropdown.css");
 
-const Dropdown = React.createClass({
-  propTypes: {
-    panel: PropTypes.object
-  },
-
-  displayName: "Dropdown",
+class Dropdown extends React.Component {
 
   getInitialState() {
     return {
       dropdownShown: false
     };
-  },
+  }
 
   toggleDropdown(e) {
     this.setState({
       dropdownShown: !this.state.dropdownShown,
     });
-  },
+  }
 
   renderPanel() {
     return dom.div(
@@ -30,7 +25,7 @@ const Dropdown = React.createClass({
       },
       this.props.panel
     );
-  },
+  }
 
   renderButton() {
     return dom.button(
@@ -40,7 +35,7 @@ const Dropdown = React.createClass({
       },
       "»"
     );
-  },
+  }
 
   renderMask() {
     return dom.div({
@@ -48,7 +43,7 @@ const Dropdown = React.createClass({
       onClick: this.toggleDropdown,
       style: { display: (this.state.dropdownShown ? "block" : "none") }
     });
-  },
+  }
 
   render() {
     return dom.div({ className: "dropdown-block" },
@@ -58,6 +53,12 @@ const Dropdown = React.createClass({
     );
   }
 
-});
+}
+
+Dropdown.propTypes = {
+  panel: PropTypes.object
+};
+
+Dropdown.displayName = "Dropdown";
 
 module.exports = Dropdown;
