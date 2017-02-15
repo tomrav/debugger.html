@@ -1,7 +1,7 @@
 const React = require("react");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
-const { DOM: dom, PropTypes } = React;
+const { DOM: dom, PropTypes, Component} = React;
 const classnames = require("classnames");
 const ImPropTypes = require("react-immutable-proptypes");
 const { Set } = require("immutable");
@@ -17,19 +17,11 @@ const { showMenu } = require("./shared/menu");
 const { copyToTheClipboard } = require("../utils/clipboard");
 const { throttle } = require("../utils/utils");
 
-let SourcesTree = React.createClass({
-  propTypes: {
-    sources: ImPropTypes.map.isRequired,
-    selectSource: PropTypes.func.isRequired,
-    shownSource: PropTypes.string,
-    selectedSource: ImPropTypes.map
-  },
-
-  displayName: "SourcesTree",
+class SourcesTree extends Component{
 
   getInitialState() {
     return createTree(this.props.sources);
-  },
+  }
 
   queueUpdate: throttle(function() {
     if (!this.isMounted()) {
@@ -37,12 +29,12 @@ let SourcesTree = React.createClass({
     }
 
     this.forceUpdate();
-  }, 50),
+  }, 50)
 
   shouldComponentUpdate() {
     this.queueUpdate();
     return false;
-  },
+  }
 
   componentWillReceiveProps(nextProps) {
     const { selectedSource } = this.props;
@@ -99,17 +91,17 @@ let SourcesTree = React.createClass({
     this.setState({ uncollapsedTree,
       sourceTree,
       parentMap: createParentMap(sourceTree) });
-  },
+  }
 
   focusItem(item) {
     this.setState({ focusedItem: item });
-  },
+  }
 
   selectItem(item) {
     if (!nodeHasChildren(item)) {
       this.props.selectSource(item.contents.get("id"));
     }
-  },
+  }
 
   getIcon(item, depth) {
     if (depth === 0) {
@@ -121,7 +113,7 @@ let SourcesTree = React.createClass({
     }
 
     return Svg("folder");
-  },
+  }
 
   onContextMenu(event, item) {
     const copySourceUrlLabel = L10N.getStr("copySourceUrl");
@@ -146,7 +138,7 @@ let SourcesTree = React.createClass({
     }
 
     showMenu(event, menuOptions);
-  },
+  }
 
   renderItem(item, depth, focused, _, expanded, { setExpanded }) {
     const arrow = Svg(
@@ -177,9 +169,9 @@ let SourcesTree = React.createClass({
       },
       dom.div(null, arrow, icon, item.name)
     );
-  },
+  }
 
-  render: function() {
+  render() {
     const { focusedItem, sourceTree,
       parentMap, listItems, highlightItems } = this.state;
     const isEmpty = sourceTree.contents.length === 0;
@@ -215,7 +207,17 @@ let SourcesTree = React.createClass({
       }
     }, tree);
   }
-});
+}
+
+
+SourcesTree.propTypes = {
+  sources: ImPropTypes.map.isRequired,
+    selectSource: PropTypes.func.isRequired,
+    shownSource: PropTypes.string,
+    selectedSource: ImPropTypes.map
+};
+
+SourcesTree.displayName = "SourcesTree";
 
 module.exports = connect(
   state => {
