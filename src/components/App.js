@@ -25,38 +25,29 @@ const SecondaryPanes = createFactory(require("./SecondaryPanes"));
 const WelcomeBox = createFactory(require("./WelcomeBox"));
 const EditorTabs = createFactory(require("./Editor/Tabs"));
 
-const App = React.createClass({
-  propTypes: {
-    sources: PropTypes.object,
-    selectSource: PropTypes.func,
-    selectedSource: PropTypes.object,
-    startPanelCollapsed: PropTypes.bool,
-    endPanelCollapsed: PropTypes.bool,
-  },
-
-  displayName: "App",
+class App extends React.Component{
 
   getChildContext() {
     return { shortcuts };
-  },
+  }
 
   componentDidMount() {
     verticalLayoutBreakpoint.addListener(this.onLayoutChange);
-  },
+  }
 
   componentWillUnmount() {
     verticalLayoutBreakpoint.removeListener(this.onLayoutChange);
-  },
+  }
 
   getInitialState() {
     return { horizontal: verticalLayoutBreakpoint.matches };
-  },
+  }
 
   onLayoutChange() {
     this.setState({
       horizontal: verticalLayoutBreakpoint.matches
     });
-  },
+  }
 
   renderEditorPane() {
     const { startPanelCollapsed, endPanelCollapsed } = this.props;
@@ -75,7 +66,7 @@ const App = React.createClass({
         SourceSearch()
       )
     );
-  },
+  }
 
   renderHorizontalLayout() {
     const { sources, startPanelCollapsed, endPanelCollapsed } = this.props;
@@ -106,7 +97,7 @@ const App = React.createClass({
           vert: horizontal
         }),
       }));
-  },
+  }
 
   renderVerticalLayout() {
     const { sources, startPanelCollapsed, endPanelCollapsed } = this.props;
@@ -134,13 +125,24 @@ const App = React.createClass({
         endPanel: SecondaryPanes({ horizontal }),
         endPanelCollapsed,
       }));
-  },
+  }
 
   render() {
     return this.state.horizontal ?
       this.renderHorizontalLayout() : this.renderVerticalLayout();
   }
-});
+}
+
+
+App.propTypes = {
+    sources: PropTypes.object,
+        selectSource: PropTypes.func,
+        selectedSource: PropTypes.object,
+        startPanelCollapsed: PropTypes.bool,
+        endPanelCollapsed: PropTypes.bool,
+},
+
+App.displayName = "App",
 
 App.childContextTypes = {
   shortcuts: PropTypes.object
