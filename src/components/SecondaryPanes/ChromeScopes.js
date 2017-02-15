@@ -161,32 +161,30 @@ class Scopes extends Component {
     const { pauseInfo } = this.props;
 
     if (!pauseInfo) {
-      // return "###################################";
-      // return dom.div(
-      //   { className: "pane scopes-list" },
-      //   info(L10N.getStr("scopes.notPaused"))
-      // );
+      return dom.div(
+        { className: "pane scopes-list" },
+        info(L10N.getStr("scopes.notPaused"))
+      );
     }
 
-    // const roots = this.getRoots();
+    const roots = this.getRoots();
 
-    return "###################################";
-    // return dom.div(
-    //   { className: "pane scopes-list" },
-    //   ManagedTree({
-    //     itemHeight: 20,
-    //     getParent: item => null,
-    //     getChildren: this.getChildren,
-    //     getRoots: () => roots,
-    //     getKey: item => item.path,
-    //     autoExpand: 0,
-    //     autoExpandDepth: 1,
-    //     autoExpandAll: false,
-    //     disabledFocus: true,
-    //     onExpand: this.onExpand,
-    //     renderItem: this.renderItem
-    //   })
-  // );
+    return dom.div(
+      { className: "pane scopes-list" },
+      ManagedTree({
+        itemHeight: 20,
+        getParent: item => null,
+        getChildren: this.getChildren,
+        getRoots: () => roots,
+        getKey: item => item.path,
+        autoExpand: 0,
+        autoExpandDepth: 1,
+        autoExpandAll: false,
+        disabledFocus: true,
+        onExpand: this.onExpand,
+        renderItem: this.renderItem
+      })
+  );
   }
 }
 
